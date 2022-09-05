@@ -45,6 +45,7 @@ function App() {
 
   // checked된 box를 alert창에 보여주기
   const [checkedItems, setCheckedItems] = useState([]);
+
   const onHandleChecked = (e) => {
     console.log(e.target.checked);
     if (e.target.checked) {
@@ -59,8 +60,26 @@ function App() {
   // 버튼을 클릭했을때 alert창 띄우기
   const [alertOpen, setAlertOpen] = React.useState(false);
 
-  const handleClick = () => {
-    setAlertOpen(!alertOpen);
+  const handleClick = (e) => {
+    console.log(e.target.checked);
+    if (checkedItems.length > 0) {
+      setAlertOpen(!alertOpen);
+    } else {
+      alert("한가지 이상 체크하세요.");
+    }
+  };
+
+  //  const handleClick = () => {
+  //     setAlertOpen(!alertOpen);
+  // };
+
+  // 배열을 풀어서 콤마를 찍어주는 함수
+  // 배열의 내용이 한개만 있을땐 콤마를 안찍고
+  // 배열을 돌다가 제일 마지막 요소는 콤마를 안찍고
+  const makeCommas = () => {
+    const result = checkedItems.join();
+    console.log("result", result);
+    return result;
   };
 
   return (
@@ -108,15 +127,16 @@ function App() {
       <div className="checkBox">
         <h1>React Check Box</h1>
         <div className="check-inner">
-          <Checkbox {...label} onChange={onHandleChecked} value="A" />A
-          <Checkbox {...label} onChange={onHandleChecked} value="B" />B
-          <Checkbox {...label} onChange={onHandleChecked} value="C" />C
-          <Checkbox {...label} onChange={onHandleChecked} value="D" />D <br />
+          <Checkbox {...label} onChange={onHandleChecked} value="apple" />
+          apple
+          <Checkbox {...label} onChange={onHandleChecked} value="mango" />
+          mango
+          <Checkbox {...label} onChange={onHandleChecked} value="kiwi" />
+          kiwi
+          <Checkbox {...label} onChange={onHandleChecked} value="melon" />
+          melon <br />
         </div>
-        <Fab
-          color="primary"
-          onClick={handleClick}
-        >
+        <Fab color="primary" onClick={handleClick}>
           확인
         </Fab>
       </div>
@@ -124,12 +144,12 @@ function App() {
         Open Alert!
       </Button> */}
       <Dialog open={alertOpen} onClose={handleClick}>
-        <Alert 
+        <Alert
 
         //props go here
         >
           <AlertTitle>결과!</AlertTitle>
-          {checkedItems}를 선택하셨습니다.
+          {makeCommas()}를 선택하셨습니다.
         </Alert>
       </Dialog>
       {/* MUI에서 Alert를 사용할 경우 Dialog(Modal도 ok)박스로 감싼후 Dialog로 기능추가 */}
